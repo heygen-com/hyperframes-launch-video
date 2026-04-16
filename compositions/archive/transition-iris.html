@@ -1,0 +1,234 @@
+<template id="transition-iris-template">
+  <div
+    data-composition-id="transition-iris"
+    data-width="1920"
+    data-height="1080"
+    data-start="0"
+    data-duration="0.7"
+  >
+    <!-- SDF Iris shader transition — circle opens from center with
+         triple onion ring glow, revealing Beat 7 through Beat 6L. -->
+    <canvas id="iris-canvas" width="1920" height="1080"></canvas>
+
+    <style>
+      [data-composition-id="transition-iris"] {
+        width: 1920px; height: 1080px;
+        position: relative; overflow: hidden;
+        pointer-events: none;
+      }
+      [data-composition-id="transition-iris"] #iris-canvas {
+        position: absolute; top: 0; left: 0;
+        width: 1920px; height: 1080px;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        var tl = gsap.timeline({ paused: true });
+        var root = document.querySelector('[data-composition-id="transition-iris"]');
+        var canvas = root.querySelector("#iris-canvas");
+        var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+
+        if (!gl) {
+          // Fallback: simple CSS clip-path iris
+          canvas.style.display = "none";
+          var fb = document.createElement("div");
+          fb.style.cssText = "position:absolute;inset:0;background:#f8f4ed;";
+          root.appendChild(fb);
+          tl.to(fb, { clipPath: "circle(0% at 50% 50%)", duration: 0.8, ease: "power2.inOut" }, 0);
+          gsap.set(fb, { clipPath: "circle(120% at 50% 50%)" });
+          window.__timelines["transition-iris"] = tl;
+          return;
+        }
+
+        gl.viewport(0, 0, 1920, 1080);
+
+        // --- Draw representative scene textures to Canvas 2D ---
+
+        // "From" texture: Beat 6L — warm bg with production canvas elements
+        function drawFrom() {
+          var c = document.createElement("canvas");
+          c.width = 1920; c.height = 1080;
+          var ctx = c.getContext("2d");
+          // Warm background
+          var bg = ctx.createRadialGradient(960, 480, 100, 960, 540, 900);
+          bg.addColorStop(0, "#faf7f0");
+          bg.addColorStop(1, "#f0ebe2");
+          ctx.fillStyle = bg;
+          ctx.fillRect(0, 0, 1920, 1080);
+          // Video frame placeholder (dark rect, centered)
+          ctx.fillStyle = "#2a1f14";
+          ctx.beginPath();
+          ctx.roundRect(540, 240, 840, 540, 16);
+          ctx.fill();
+          // Screen gradient
+          var sg = ctx.createRadialGradient(960, 480, 50, 960, 510, 400);
+          sg.addColorStop(0, "#6b5a48");
+          sg.addColorStop(1, "#1a1410");
+          ctx.fillStyle = sg;
+          ctx.beginPath();
+          ctx.roundRect(548, 248, 824, 524, 12);
+          ctx.fill();
+          // Orange frame border
+          ctx.strokeStyle = "#c84f1c";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.roundRect(534, 234, 852, 552, 22);
+          ctx.stroke();
+          // Lower third
+          ctx.fillStyle = "rgba(248,244,237,0.94)";
+          ctx.beginPath();
+          ctx.roundRect(570, 680, 200, 60, 6);
+          ctx.fill();
+          ctx.fillStyle = "#c84f1c";
+          ctx.fillRect(570, 680, 4, 60);
+          // Label
+          ctx.font = "500 28px monospace";
+          ctx.fillStyle = "#8a6a2a";
+          ctx.textAlign = "center";
+          ctx.fillText("composes together", 960, 900);
+          return c;
+        }
+
+        // "To" texture: Beat 7 — split dark/light panels
+        function drawTo() {
+          var c = document.createElement("canvas");
+          c.width = 1920; c.height = 1080;
+          var ctx = c.getContext("2d");
+          // Light background
+          ctx.fillStyle = "#f7f5f0";
+          ctx.fillRect(0, 0, 1920, 1080);
+          // Left dark panel
+          ctx.fillStyle = "#2a2a2a";
+          ctx.fillRect(0, 0, 960, 1080);
+          // Dense code lines (left)
+          ctx.font = "400 13px monospace";
+          ctx.fillStyle = "rgba(255,255,255,0.35)";
+          for (var i = 0; i < 40; i++) {
+            var indent = ((i * 7) % 5) * 20 + 40;
+            var w = 200 + ((i * 13) % 8) * 40;
+            ctx.fillRect(indent, 110 + i * 22, w, 10);
+          }
+          // Right warm panel
+          ctx.fillStyle = "#fcf8f0";
+          ctx.fillRect(960, 0, 960, 1080);
+          // Clean code lines (right)
+          ctx.fillStyle = "rgba(58,48,32,0.25)";
+          for (var j = 0; j < 15; j++) {
+            var rIndent = 1020 + ((j * 3) % 3) * 24;
+            var rW = 250 + ((j * 11) % 6) * 50;
+            ctx.fillRect(rIndent, 140 + j * 42, rW, 12);
+          }
+          // Divider line
+          ctx.fillStyle = "rgba(60,50,30,0.15)";
+          ctx.fillRect(959, 100, 2, 880);
+          // Labels
+          ctx.font = "500 18px monospace";
+          ctx.fillStyle = "rgba(255,255,255,0.35)";
+          ctx.textAlign = "left";
+          ctx.fillText("4,500 lines of instructions", 60, 70);
+          ctx.fillStyle = "#8a7a50";
+          ctx.fillText("one skill file", 1020, 70);
+          return c;
+        }
+
+        // Upload canvas to WebGL texture
+        function canvasToTex(cnv) {
+          var tex = gl.createTexture();
+          gl.bindTexture(gl.TEXTURE_2D, tex);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, cnv);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          return tex;
+        }
+
+        var texFrom = canvasToTex(drawFrom());
+        var texTo = canvasToTex(drawTo());
+
+        // --- Shaders ---
+        var vertSrc =
+          "attribute vec2 a_pos; varying vec2 v_uv; void main(){" +
+          "v_uv=a_pos*0.5+0.5; v_uv.y=1.0-v_uv.y; gl_Position=vec4(a_pos,0,1);}";
+
+        // SDF Iris — circle opening from center with triple onion ring glow
+        var fragSrc =
+          "precision mediump float;" +
+          "varying vec2 v_uv;" +
+          "uniform sampler2D u_from, u_to;" +
+          "uniform float u_progress;" +
+          "uniform vec2 u_resolution;" +
+          "void main() {" +
+          "  vec4 A = texture2D(u_from, v_uv), B = texture2D(u_to, v_uv);" +
+          "  vec2 uv = (v_uv - .5) * vec2(u_resolution.x / u_resolution.y, 1.);" +
+          "  float d = length(uv);" +
+          "  float radius = u_progress * 1.2;" +
+          "  float fw = .003;" +
+          "  float edge = smoothstep(radius + fw, radius - fw, d);" +
+          "  float ring1 = exp(-abs(d - radius) * 25.);" +
+          "  float ring2 = exp(-abs(d - radius + .04) * 20.) * .5;" +
+          "  float ring3 = exp(-abs(d - radius + .08) * 15.) * .25;" +
+          "  float glow = (ring1 + ring2 + ring3) * u_progress * (1. - u_progress) * 6.;" +
+          "  gl_FragColor = vec4(mix(A, B, edge).rgb + vec3(1., .85, .6) * glow * .9, 1.);" +
+          "}";
+
+        // Compile
+        function mkShader(type, src) {
+          var s = gl.createShader(type);
+          gl.shaderSource(s, src);
+          gl.compileShader(s);
+          return s;
+        }
+        var prog = gl.createProgram();
+        gl.attachShader(prog, mkShader(gl.VERTEX_SHADER, vertSrc));
+        gl.attachShader(prog, mkShader(gl.FRAGMENT_SHADER, fragSrc));
+        gl.linkProgram(prog);
+        gl.useProgram(prog);
+
+        // Fullscreen quad
+        var buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+        var aPos = gl.getAttribLocation(prog, "a_pos");
+        gl.enableVertexAttribArray(aPos);
+        gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+        // Uniforms
+        var uFrom = gl.getUniformLocation(prog, "u_from");
+        var uTo = gl.getUniformLocation(prog, "u_to");
+        var uProg = gl.getUniformLocation(prog, "u_progress");
+        var uRes = gl.getUniformLocation(prog, "u_resolution");
+
+        function renderFrame(progress) {
+          gl.useProgram(prog);
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, texFrom);
+          gl.uniform1i(uFrom, 0);
+          gl.activeTexture(gl.TEXTURE1);
+          gl.bindTexture(gl.TEXTURE_2D, texTo);
+          gl.uniform1i(uTo, 1);
+          gl.uniform1f(uProg, progress);
+          gl.uniform2f(uRes, 1920, 1080);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        }
+
+        // Initial render (shows "from" scene)
+        renderFrame(0);
+
+        // GSAP drives progress 0→1 — continuous expanding iris
+        var proxy = { progress: 0 };
+        tl.to(proxy, {
+          progress: 1,
+          duration: 0.7,
+          ease: "power2.inOut",
+          onUpdate: function () { renderFrame(proxy.progress); }
+        }, 0);
+
+        window.__timelines["transition-iris"] = tl;
+      })();
+    </script>
+  </div>
+</template>

@@ -1,0 +1,179 @@
+<template id="captions-template">
+  <div
+    data-composition-id="captions"
+    data-width="1920"
+    data-height="1080"
+    data-start="0"
+    data-duration="50"
+  >
+    <div class="cap-container">
+      <div id="cg-0" class="cg"><span class="cw">CSS</span> <span class="cw">animations</span></div>
+      <div id="cg-1" class="cg"><span class="cw">GSAP</span></div>
+      <div id="cg-2" class="cg"><span class="cw">Shaders</span></div>
+      <div id="cg-3" class="cg"><span class="cw">composes</span> <span class="cw">together</span></div>
+      <div id="cg-4" class="cg"><span class="cw">Your</span> <span class="cw">agent</span> <span class="cw">writes</span> <span class="cw">code</span> <span class="cw">to</span> <span class="cw">compose</span></div>
+      <div id="cg-5" class="cg"><span class="cw">Hyperframes</span> <span class="cw">renders</span> <span class="cw">every</span> <span class="cw">frame</span> <span class="cw">to</span> <span class="cw">MP4.</span></div>
+      <div id="cg-6" class="cg"><span class="cw">It's</span> <span class="cw">deterministic</span> <span class="cw">pixel-perfect</span> <span class="cw">every</span> <span class="cw">time</span></div>
+      <div id="cg-7" class="cg"><span class="cw">Give</span> <span class="cw">your</span> <span class="cw">agent</span> <span class="cw">the</span> <span class="cw">skill.</span></div>
+      <div id="cg-8" class="cg"><span class="cw">Tell</span> <span class="cw">it</span> <span class="cw">what</span> <span class="cw">to</span> <span class="cw">make,</span></div>
+      <div id="cg-9" class="cg"><span class="cw">watch</span> <span class="cw">it</span> <span class="cw">build</span></div>
+    </div>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+
+      [data-composition-id="captions"] {
+        width: 1920px;
+        height: 1080px;
+        position: relative;
+        pointer-events: none;
+        z-index: 999;
+      }
+
+      [data-composition-id="captions"] .cap-container {
+        position: absolute;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 1600px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      [data-composition-id="captions"] .cg {
+        position: absolute;
+        white-space: nowrap;
+        font-family: "Inter", system-ui, sans-serif;
+        font-weight: 500;
+        font-size: 42px;
+        color: rgba(255, 50, 50, 1);
+        letter-spacing: -0.01em;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      [data-composition-id="captions"] .cw {
+        display: inline-block;
+        opacity: 0;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        var tl = gsap.timeline({ paused: true });
+
+        var GROUPS = [
+          { id: "cg-0", start: 18.20, end: 19.30, words: [
+            { start: 18.20, end: 18.62 },
+            { start: 18.62, end: 19.38 }
+          ]},
+          { id: "cg-1", start: 19.41, end: 20.34, words: [
+            { start: 19.41, end: 20.44 }
+          ]},
+          { id: "cg-2", start: 20.44, end: 21.34, words: [
+            { start: 20.44, end: 21.44 }
+          ]},
+          { id: "cg-3", start: 29.42, end: 30.50, words: [
+            { start: 29.42, end: 29.96 },
+            { start: 29.96, end: 30.60 }
+          ]},
+          { id: "cg-4", start: 30.74, end: 33.90, words: [
+            { start: 30.74, end: 31.08 },
+            { start: 31.08, end: 31.68 },
+            { start: 31.68, end: 32.40 },
+            { start: 32.40, end: 32.59 },
+            { start: 32.71, end: 33.12 },
+            { start: 33.12, end: 34.00 }
+          ]},
+          { id: "cg-5", start: 34.14, end: 37.90, words: [
+            { start: 34.14, end: 35.02 },
+            { start: 35.02, end: 35.62 },
+            { start: 35.66, end: 35.84 },
+            { start: 36.45, end: 36.46 },
+            { start: 36.46, end: 36.76 },
+            { start: 36.77, end: 38.16 }
+          ]},
+          { id: "cg-6", start: 38.16, end: 40.34, words: [
+            { start: 38.16, end: 38.30 },
+            { start: 38.30, end: 38.78 },
+            { start: 38.78, end: 39.75 },
+            { start: 39.75, end: 40.14 },
+            { start: 40.14, end: 40.46 }
+          ]},
+          { id: "cg-7", start: 40.60, end: 42.19, words: [
+            { start: 40.60, end: 40.79 },
+            { start: 40.79, end: 41.08 },
+            { start: 41.14, end: 41.53 },
+            { start: 41.53, end: 41.78 },
+            { start: 41.78, end: 42.31 }
+          ]},
+          { id: "cg-8", start: 42.31, end: 43.81, words: [
+            { start: 42.31, end: 42.56 },
+            { start: 42.57, end: 42.93 },
+            { start: 42.93, end: 43.26 },
+            { start: 43.26, end: 43.42 },
+            { start: 43.42, end: 43.91 }
+          ]},
+          { id: "cg-9", start: 43.91, end: 44.86, words: [
+            { start: 43.91, end: 44.32 },
+            { start: 44.32, end: 44.48 },
+            { start: 44.48, end: 44.98 }
+          ]}
+        ];
+
+        GROUPS.forEach(function (group) {
+          var el = document.getElementById(group.id);
+          if (!el) return;
+          var wordEls = el.querySelectorAll(".cw");
+
+          // Group entrance — subtle fade in
+          tl.set(el, { opacity: 1, visibility: "visible" }, group.start);
+
+          // Per-word fade at spoken onset
+          wordEls.forEach(function (w, wi) {
+            if (group.words[wi]) {
+              tl.to(w, {
+                opacity: 1,
+                duration: 0.15,
+                ease: "power2.out"
+              }, group.words[wi].start);
+            }
+          });
+
+          // Group exit — subtle fade out
+          tl.to(el, {
+            opacity: 0,
+            duration: 0.12,
+            ease: "power2.in"
+          }, group.end - 0.12);
+
+          // Hard kill guarantee
+          tl.set(el, { opacity: 0, visibility: "hidden" }, group.end);
+        });
+
+        // Caption lint: verify every group has a hard kill
+        GROUPS.forEach(function (group) {
+          var el = document.getElementById(group.id);
+          if (!el) return;
+          tl.seek(group.end + 0.01);
+          var computed = window.getComputedStyle(el);
+          if (computed.opacity !== "0" && computed.visibility !== "hidden") {
+            console.warn("[caption-lint] group " + group.id + " still visible at t=" + (group.end + 0.01).toFixed(2) + "s");
+          }
+        });
+        tl.seek(0);
+
+        // Pad timeline
+        tl.to({}, { duration: 50 }, 0);
+
+        window.__timelines["captions"] = tl;
+      })();
+    </script>
+  </div>
+</template>

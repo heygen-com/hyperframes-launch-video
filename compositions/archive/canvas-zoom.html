@@ -1,0 +1,249 @@
+<template id="canvas-zoom-template">
+  <div
+    data-composition-id="canvas-zoom"
+    data-width="1920"
+    data-height="1080"
+    data-start="0"
+    data-duration="4.33"
+  >
+    <!-- Warm textured canvas (matches Beat 1 backdrop). Fades during transition. -->
+    <div class="canvas-bg"></div>
+
+    <!-- Clean typographic backdrop (fades in as we "enter" the card). -->
+    <div class="clean-bg"></div>
+
+    <!-- The target card we're zooming into. Mirrors C1 FORMAT from Beat 1. -->
+    <div class="target-wrap">
+      <div class="target-card">
+        <div class="motion-stage">
+          <span class="m-letter">F</span><span class="m-letter">O</span><span class="m-letter">R</span><span class="m-letter">M</span><span class="m-letter">A</span><span class="m-letter">T</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- "Hyperframes" wordmark reveal — flips in from FORMAT like a departure board. -->
+    <div class="wordmark" id="wm-reveal">Hyperframes</div>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Fraunces:opsz,wght,SOFT@9..144,100..900,0..100&display=swap");
+
+      [data-composition-id="canvas-zoom"] {
+        width: 1920px;
+        height: 1080px;
+        position: relative;
+        overflow: hidden;
+        background: #fbf4e3;
+      }
+
+      /* Warm canvas — dot grid + vignette, matches Beat 1 end state. */
+      [data-composition-id="canvas-zoom"] .canvas-bg {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse at 70% 30%, #f8efd9 0%, #f2e6cb 55%, #ead9b3 100%),
+          #efe2c5;
+      }
+      [data-composition-id="canvas-zoom"] .canvas-bg::before {
+        content: "";
+        position: absolute;
+        inset: -40px;
+        background-image: radial-gradient(#c9a66b 1px, transparent 1.2px);
+        background-size: 28px 28px;
+        opacity: 0.22;
+        mix-blend-mode: multiply;
+      }
+      [data-composition-id="canvas-zoom"] .canvas-bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(120, 80, 20, 0.18) 100%);
+        pointer-events: none;
+      }
+
+      /* Subtle vignette overlay that fades in AFTER the card has covered the
+         viewport — gives the settled "clean space" a hint of depth. */
+      [data-composition-id="canvas-zoom"] .clean-bg {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 55%, transparent 40%, rgba(110, 70, 15, 0.09) 100%);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 3;
+      }
+
+      /* Target card — matches C1 from Beat 1 exactly (480×280).
+         Starts at scale 2.376 (= plane 2.2 × card 1.08 lift-off). */
+      [data-composition-id="canvas-zoom"] .target-wrap {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 480px;
+        height: 280px;
+        margin-left: -240px;
+        margin-top: -140px;
+        transform-origin: 50% 50%;
+        will-change: transform, filter;
+      }
+      [data-composition-id="canvas-zoom"] .target-card {
+        position: absolute;
+        inset: 0;
+        border-radius: 18px;
+        background: #fbf4e3;
+        border: 1px solid rgba(90, 60, 10, 0.14);
+        box-shadow:
+          0 32px 64px rgba(80, 55, 15, 0.35),
+          0 8px 20px rgba(80, 55, 15, 0.18);
+        overflow: hidden;
+      }
+      [data-composition-id="canvas-zoom"] .motion-stage {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        font-family: "Big Shoulders Display", sans-serif;
+        font-weight: 800;
+        font-size: 120px;
+        color: #14110a;
+        letter-spacing: -0.02em;
+        perspective: 800px;
+        backface-visibility: hidden;
+      }
+      [data-composition-id="canvas-zoom"] .m-letter {
+        display: inline-block;
+        transform-origin: 50% 60%;
+      }
+
+      /* Hyperframe wordmark — Fraunces variable display.
+         Inline-block centered via GSAP xPercent/yPercent so later tweens can
+         translate the text (not just the block). CSS custom properties expose
+         the Fraunces variable-font axes so GSAP can animate them. */
+      [data-composition-id="canvas-zoom"] .wordmark {
+        --opsz: 144;
+        --wght: 440;
+        --soft: 60;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        white-space: nowrap;
+        font-family: "Fraunces", serif;
+        font-variation-settings: "opsz" var(--opsz), "wght" var(--wght), "SOFT" var(--soft);
+        font-size: 230px;
+        letter-spacing: -0.03em;
+        color: #14110a;
+        z-index: 5;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        const root = document.querySelector('[data-composition-id="canvas-zoom"]');
+
+        const canvasBg = root.querySelector(".canvas-bg");
+        const cleanBg = root.querySelector(".clean-bg");
+        const targetWrap = root.querySelector(".target-wrap");
+        const targetCard = root.querySelector(".target-card");
+        const mLetters = root.querySelectorAll(".m-letter");
+        const wordmark = root.querySelector(".wordmark");
+
+        // --- Vox incoming settle (0 → 0.35s). Rack-focus from Beat 1's exit blur. ---
+        // Beat 1 ended: C1 at viewport center, plane scale 2.2 × card scale 1.08 = 2.376,
+        // rotation -5° (C1's inline tilt), blur 16px, opacity 0.75, lifted shadow.
+        // We start at that EXACT state and sharpen into focus.
+        // expo.out entry velocity matches Beat 1's 1.75x-faster power3.in exit.
+        gsap.set(targetWrap, { scale: 2.376, rotation: -5, filter: "blur(16px)", opacity: 0.75 });
+        tl.to(targetWrap,
+          { filter: "blur(0px)", opacity: 1, duration: 0.4, ease: "expo.out" },
+          0);
+
+        // --- Phase 1: Continue zoom (0 → 1.6s). ---
+        // expo.out has steep initial burst matching the faster exit velocity, then long settle.
+        tl.to(targetWrap,
+          { scale: 4.4, rotation: 0, duration: 1.6, ease: "expo.out" },
+          0);
+        // Continue a tiny drift after reaching cover, so it keeps breathing.
+        tl.to(targetWrap,
+          { scale: 4.6, duration: 2.33, ease: "sine.out" },
+          2.0);
+
+        // Card border & shadow fade EARLY (by 1.8s) so the viewport edge is seamless
+        // by the time the card has fully covered. No crossfade backdrops needed.
+        tl.to(targetCard,
+          { borderColor: "rgba(0,0,0,0)", duration: 0.8, ease: "power2.inOut" },
+          1.0);
+        tl.to(targetCard,
+          { boxShadow: "0 0 0 rgba(0,0,0,0)", duration: 0.9, ease: "power2.inOut" },
+          1.0);
+
+        // FORMAT letters breathe through the zoom, then the whole stage flips
+        // away like an airport departure board — rotateX upward.
+        const motionStage = root.querySelector(".motion-stage");
+        mLetters.forEach((el, i) => {
+          tl.to(el, {
+            y: -10,
+            rotation: i % 2 === 0 ? 4 : -4,
+            duration: 0.5,
+            ease: "sine.inOut",
+            repeat: 1,
+            yoyo: true,
+          }, i * 0.06);
+        });
+        // Departure board flip — FORMAT rotates up and away
+        tl.to(motionStage, {
+          rotateX: -90,
+          opacity: 0,
+          duration: 0.35,
+          ease: "power2.in",
+          transformOrigin: "50% 50%"
+        }, 2.1);
+
+        // Canvas bg fades gently under the growing card — by the time it's gone,
+        // the card fully covers the viewport. This is a safety for the corners.
+        tl.to(canvasBg,
+          { opacity: 0, duration: 1.0, ease: "power2.inOut" },
+          1.2);
+
+        // Subtle vignette settles in once we're "inside" — gives cleanness depth.
+        tl.to(cleanBg,
+          { opacity: 1, duration: 0.8, ease: "sine.out" },
+          2.8);
+
+        // --- Phase 3: Reveal (2.45 → 3.20). "This is Hyperframes." ---
+        // Wordmark flips in from below — the second half of the departure board flip.
+        gsap.set(wordmark, {
+          xPercent: -50,
+          yPercent: -50,
+          opacity: 0,
+          rotateX: 90,
+          letterSpacing: "0.08em",
+          transformOrigin: "50% 50%",
+          perspective: 800,
+          "--opsz": 144,
+          "--wght": 440,
+          "--soft": 60,
+        });
+        tl.to(wordmark,
+          { opacity: 1, rotateX: 0, letterSpacing: "-0.03em", duration: 0.45, ease: "power2.out" },
+          2.45);
+
+        // --- Phase 4: Pan prep (4.0 → 4.33). ---
+        // Beat 2 begins the left-pan in its own final 0.33s so Beat 3 picks up
+        // mid-motion. Fraunces opsz starts dropping toward text optical-size so
+        // the glyphs subtly reshape as the wordmark shrinks.
+        tl.to(wordmark,
+          {
+            x: -140, y: -30, scale: 0.92,
+            "--opsz": 130,
+            duration: 0.33, ease: "power2.in",
+          },
+          4.0);
+
+        window.__timelines["canvas-zoom"] = tl;
+      })();
+    </script>
+  </div>
+</template>

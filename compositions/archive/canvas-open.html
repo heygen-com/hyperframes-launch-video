@@ -1,0 +1,495 @@
+<template id="canvas-open-template">
+  <div
+    data-composition-id="canvas-open"
+    data-width="1920"
+    data-height="1080"
+    data-start="0"
+    data-duration="3.21"
+  >
+    <div class="canvas-bg"></div>
+    <div class="zoom-wrap">
+    <div class="canvas-plane">
+      <!--
+        25 cards (15 featured + 10 fillers) on a 3600×2200 plane.
+        Pan sweeps ~1000px diagonally. Cards scatter across the full area.
+      -->
+
+      <!-- C1 — FORMAT kinetic type (exit-focus card — lifts off during transition) -->
+      <div class="card c1" data-depth="mid" style="top:500px; left:600px; width:480px; height:280px; transform:rotate(-5deg);">
+        <div class="c1-stage"><span class="c1-l">F</span><span class="c1-l">O</span><span class="c1-l">R</span><span class="c1-l">M</span><span class="c1-l">A</span><span class="c1-l">T</span></div>
+      </div>
+
+      <!-- C2 — Gradient morph -->
+      <div class="card c2" data-depth="far" style="top:250px; left:1600px; width:300px; height:190px; transform:rotate(8deg);">
+        <div class="c2-grad"></div>
+      </div>
+
+      <!-- C3 — Bar chart -->
+      <div class="card c3" data-depth="mid" style="top:750px; left:2300px; width:380px; height:250px; transform:rotate(5deg);">
+        <div class="c3-label">Q3 VELOCITY</div>
+        <div class="c3-bars"><span class="c3-bar"></span><span class="c3-bar"></span><span class="c3-bar"></span><span class="c3-bar"></span><span class="c3-bar"></span></div>
+        <div class="c3-axis"></div>
+      </div>
+
+      <!-- C4 — Particle grid -->
+      <div class="card c4" data-depth="far" style="top:1300px; left:2700px; width:240px; height:200px; transform:rotate(-10deg);">
+        <div class="c4-grid" id="c4-grid"></div>
+      </div>
+
+      <!-- C5 — Logo assemble -->
+      <div class="card c5" data-depth="mid" style="top:1300px; left:400px; width:280px; height:200px; transform:rotate(-7deg);">
+        <div class="c5-stage"><span class="c5-sh c5-sq"></span><span class="c5-sh c5-tri"></span><span class="c5-sh c5-circ"></span></div>
+      </div>
+
+      <!-- C7 — Shader field (hero) -->
+      <div class="card c7" data-depth="mid" style="top:650px; left:1300px; width:520px; height:330px; transform:rotate(2deg);">
+        <div class="c7-field"></div>
+      </div>
+
+      <!-- C8 — Video composite -->
+      <div class="card c8" data-depth="mid" style="top:1350px; left:2100px; width:360px; height:230px; transform:rotate(4deg);">
+        <div class="c8-screen"></div>
+        <div class="c8-lt"><span class="c8-n">MAYA CHEN</span><span class="c8-t">Product Designer</span></div>
+      </div>
+
+      <!-- C9 — SVG line -->
+      <div class="card c9" data-depth="near" style="top:1400px; left:900px; width:340px; height:220px; transform:rotate(-4deg);">
+        <svg class="c9-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+          <path class="c9-path" d="M 14 86 C 44 30 78 30 100 60 S 162 96 188 40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <circle class="c9-dot" cx="14" cy="86" r="4.5" fill="currentColor"/>
+        </svg>
+      </div>
+
+      <!-- C10 — 3D cube -->
+      <div class="card c10" data-depth="far" style="top:350px; left:2800px; width:300px; height:300px; transform:rotate(-9deg);">
+        <div class="c10-stage"><div class="c10-cube">
+          <span class="c10-f c10-f1"></span><span class="c10-f c10-f2"></span><span class="c10-f c10-f3"></span>
+          <span class="c10-f c10-f4"></span><span class="c10-f c10-f5"></span><span class="c10-f c10-f6"></span>
+        </div></div>
+      </div>
+
+      <!-- C11 — Waveform bars -->
+      <div class="card c11" data-depth="near" style="top:900px; left:250px; width:320px; height:190px; transform:rotate(7deg);">
+        <div class="c11-bars" id="c11-bars"></div>
+      </div>
+
+      <!-- C12 — Color swatches -->
+      <div class="card c12" data-depth="far" style="top:250px; left:800px; width:260px; height:170px; transform:rotate(-11deg);">
+        <div class="c12-sw-grid">
+          <span class="c12-sw" style="background:#c84f1c"></span><span class="c12-sw" style="background:#e2b53f"></span><span class="c12-sw" style="background:#204d3b"></span>
+          <span class="c12-sw" style="background:#7fc3c8"></span><span class="c12-sw" style="background:#d4586a"></span><span class="c12-sw" style="background:#5a3215"></span>
+        </div>
+      </div>
+
+      <!-- C13 — Code snippet (dark) -->
+      <div class="card c13" data-depth="mid" style="top:450px; left:1900px; width:340px; height:220px; transform:rotate(3deg);">
+        <div class="c13-code"><span class="c13-kw">const</span> tl = gsap.<span class="c13-fn">timeline</span>();<br>
+tl.<span class="c13-fn">to</span>(<span class="c13-str">".box"</span>, {<br>
+&nbsp;&nbsp;x: <span class="c13-num">200</span>,<br>
+&nbsp;&nbsp;duration: <span class="c13-num">0.6</span>,<br>
+&nbsp;&nbsp;ease: <span class="c13-str">"power2.out"</span><br>
+});</div>
+      </div>
+
+      <!-- C14 — Circular progress -->
+      <div class="card c14" data-depth="mid" style="top:900px; left:2500px; width:240px; height:240px; transform:rotate(-6deg);">
+        <svg class="c14-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle class="c14-track" cx="50" cy="50" r="42" stroke="#e8dcc0" stroke-width="6" fill="none"/>
+          <circle class="c14-fill" cx="50" cy="50" r="42" stroke="#c84f1c" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="c14-pct">78%</div>
+      </div>
+
+      <!-- C15 — Typography specimen -->
+      <div class="card c15" data-depth="mid" style="top:1100px; left:1100px; width:380px; height:240px; transform:rotate(-3deg);">
+        <div class="c15-spec"><span class="c15-big">Aa</span><span class="c15-label">Instrument Serif · 400</span></div>
+      </div>
+
+      <!-- C16 — Gradient blob -->
+      <div class="card c16" data-depth="far" style="top:400px; left:350px; width:280px; height:280px; transform:rotate(6deg);">
+        <div class="c16-blob"></div>
+      </div>
+
+      <!-- CV1 — showcase video: hypecard (fills center-right gap) -->
+      <div class="card cs cs-vid" data-depth="mid" style="top:1000px; left:1700px; width:360px; height:210px; transform:rotate(-3deg);">
+        <video class="cs-video" src="../assets/showcase-hypecard.mp4" muted playsinline></video>
+      </div>
+
+      <!-- 10 small fillers scattered for density — each with a mini visual -->
+      <!-- CS1 — showcase video: cross-warp morph -->
+      <div class="card cs cs-vid" data-depth="far" style="top:600px; left:150px; width:280px; height:160px; transform:rotate(14deg);">
+        <video class="cs-video" src="../assets/showcase-cross-warp.mp4" muted playsinline></video>
+      </div>
+      <!-- CS2 — diagonal stripes -->
+      <div class="card cs cs-stripes" data-depth="far" style="top:200px; left:500px; width:190px; height:110px; transform:rotate(-12deg);"></div>
+      <!-- CS3 — concentric rings -->
+      <div class="card cs cs-rings" data-depth="far" style="top:1500px; left:1700px; width:200px; height:130px; transform:rotate(5deg);"></div>
+      <!-- CS4 — mini grid -->
+      <div class="card cs cs-grid" data-depth="far" style="top:200px; left:2200px; width:180px; height:120px; transform:rotate(-8deg);"></div>
+      <!-- CS5 — warm gradient orb -->
+      <div class="card cs cs-orb" data-depth="far" style="top:1600px; left:2900px; width:210px; height:140px; transform:rotate(10deg);"></div>
+      <!-- CS6 — crosshair -->
+      <div class="card cs cs-crosshair" data-depth="far" style="top:600px; left:3100px; width:180px; height:130px; transform:rotate(-7deg);"></div>
+      <!-- CS7 — chevron stack -->
+      <div class="card cs cs-chevrons" data-depth="far" style="top:1700px; left:1500px; width:160px; height:110px; transform:rotate(13deg);">
+        <span class="cs-chev"></span><span class="cs-chev"></span><span class="cs-chev"></span>
+      </div>
+      <!-- CS8 — mini spectrum bars -->
+      <div class="card cs cs-spectrum" data-depth="far" style="top:1700px; left:700px; width:200px; height:120px; transform:rotate(-9deg);">
+        <span class="cs-sbar"></span><span class="cs-sbar"></span><span class="cs-sbar"></span><span class="cs-sbar"></span><span class="cs-sbar"></span><span class="cs-sbar"></span><span class="cs-sbar"></span>
+      </div>
+      <!-- CS9 — showcase video: ascii lightning -->
+      <div class="card cs cs-vid" data-depth="far" style="top:500px; left:2600px; width:280px; height:160px; transform:rotate(4deg);">
+        <video class="cs-video" src="../assets/showcase-ascii-lightning.mp4" muted playsinline></video>
+      </div>
+      <!-- CS10 — mini type block -->
+      <div class="card cs cs-type" data-depth="far" style="top:350px; left:1050px; width:190px; height:120px; transform:rotate(-14deg);">
+        <span class="cs-type-big">Bg</span><span class="cs-type-sm">Mono · 500</span>
+      </div>
+    </div>
+    </div><!-- /.zoom-wrap -->
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@500;700&family=Instrument+Serif&display=swap");
+
+      [data-composition-id="canvas-open"] { width:1920px; height:1080px; position:relative; overflow:hidden; }
+
+      /* Canvas background */
+      [data-composition-id="canvas-open"] .canvas-bg { position:absolute; inset:0;
+        background: radial-gradient(ellipse at 70% 30%, #f8efd9 0%, #f2e6cb 55%, #ead9b3 100%), #efe2c5; }
+      [data-composition-id="canvas-open"] .canvas-bg::before { content:""; position:absolute; inset:-40px;
+        background-image: radial-gradient(#c9a66b 1px, transparent 1.2px);
+        background-size: 28px 28px; opacity:0.22; mix-blend-mode:multiply; }
+      [data-composition-id="canvas-open"] .canvas-bg::after { content:""; position:absolute; inset:0;
+        background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(120,80,20,0.18) 100%); pointer-events:none; }
+
+      /* Zoom wrapper — scales around C1's final viewport position, separate from pan */
+      [data-composition-id="canvas-open"] .zoom-wrap {
+        position:absolute; inset:0;
+        transform-origin: 740px 480px;
+        will-change:transform, filter; }
+
+      /* Plane — 3600×2200, 2x wider sweep. Pan only (x/y/rotation). */
+      [data-composition-id="canvas-open"] .canvas-plane {
+        position:absolute; top:-400px; left:-500px; width:3600px; height:2200px;
+        transform-origin:50% 50%; will-change:transform; }
+
+      /* Cards base */
+      [data-composition-id="canvas-open"] .card { position:absolute; border-radius:18px; background:#fdf8ec;
+        border:1px solid rgba(90,60,10,0.14); overflow:hidden; color:#1e1a12;
+        box-shadow: 0 14px 36px rgba(80,55,15,0.18), 0 3px 8px rgba(80,55,15,0.09); }
+      [data-composition-id="canvas-open"] .card[data-depth="near"]  { filter:blur(2.5px); z-index:3; }
+      [data-composition-id="canvas-open"] .card[data-depth="mid"]   { z-index:2; }
+      [data-composition-id="canvas-open"] .card[data-depth="far"]   { filter:blur(1.8px) saturate(0.88); opacity:0.82; z-index:1; }
+
+      /* Fillers — each with a distinct mini visual */
+      [data-composition-id="canvas-open"] .cs { background: #f7ecd1; }
+
+      /* CS-vid — video showcase cards */
+      [data-composition-id="canvas-open"] .cs-vid { background: #0a0a0a; padding: 0; overflow: hidden; }
+      [data-composition-id="canvas-open"] .cs-video {
+        width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 18px; }
+
+      /* CS1 — dot matrix (removed — now video) */
+
+      /* CS2 — diagonal stripes */
+      [data-composition-id="canvas-open"] .cs-stripes {
+        background: repeating-linear-gradient(
+          -45deg, #e6d2a8, #e6d2a8 6px, #d4b888 6px, #d4b888 12px); }
+
+      /* CS3 — concentric rings */
+      [data-composition-id="canvas-open"] .cs-rings {
+        background:
+          radial-gradient(circle at 50% 50%, transparent 18px, #c9a66b 19px, transparent 20px),
+          radial-gradient(circle at 50% 50%, transparent 32px, #c9a66b 33px, transparent 34px),
+          radial-gradient(circle at 50% 50%, transparent 46px, #c9a66b 47px, transparent 48px);
+        background-color: #f5ead1; }
+
+      /* CS4 — mini grid */
+      [data-composition-id="canvas-open"] .cs-grid {
+        background-image:
+          linear-gradient(#c9a66b 1px, transparent 1px),
+          linear-gradient(90deg, #c9a66b 1px, transparent 1px);
+        background-size: 20px 20px; background-color: #f5ead1; }
+
+      /* CS5 — warm gradient orb */
+      [data-composition-id="canvas-open"] .cs-orb {
+        background:
+          radial-gradient(circle at 40% 40%, #e8935d 0%, transparent 50%),
+          radial-gradient(circle at 65% 65%, #e2b53f 0%, transparent 45%),
+          #1a1410; }
+
+      /* CS6 — crosshair */
+      [data-composition-id="canvas-open"] .cs-crosshair {
+        background:
+          linear-gradient(#c9a66b 1px, transparent 1px) center / 100% 1px no-repeat,
+          linear-gradient(90deg, #c9a66b 1px, transparent 1px) center / 1px 100% no-repeat,
+          radial-gradient(circle at 50% 50%, transparent 16px, #c9a66b 16.5px, transparent 17.5px);
+        background-color: #f5ead1; }
+
+      /* CS7 — chevron stack */
+      [data-composition-id="canvas-open"] .cs-chevrons {
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+        background: #f5ead1; }
+      [data-composition-id="canvas-open"] .cs-chev {
+        display: block; width: 40px; height: 12px;
+        border-left: 3px solid #b8956a; border-bottom: 3px solid #b8956a;
+        transform: rotate(-45deg) skewX(20deg); }
+
+      /* CS8 — mini spectrum bars */
+      [data-composition-id="canvas-open"] .cs-spectrum {
+        display: flex; align-items: flex-end; justify-content: center; gap: 6px;
+        padding: 16px; background: #1a1610; }
+      [data-composition-id="canvas-open"] .cs-sbar {
+        flex: 1; border-radius: 2px; background: #c84f1c; }
+      [data-composition-id="canvas-open"] .cs-sbar:nth-child(1) { height: 30%; background: #c84f1c; }
+      [data-composition-id="canvas-open"] .cs-sbar:nth-child(2) { height: 55%; background: #d4683a; }
+      [data-composition-id="canvas-open"] .cs-sbar:nth-child(3) { height: 80%; background: #e2b53f; }
+      [data-composition-id="canvas-open"] .cs-sbar:nth-child(4) { height: 95%; background: #4ec9a8; }
+      [data-composition-id="canvas-open"] .cs-sbar:nth-child(5) { height: 70%; background: #e2b53f; }
+      [data-composition-id="canvas-open"] .cs-sbar:nth-child(6) { height: 45%; background: #d4683a; }
+      [data-composition-id="canvas-open"] .cs-sbar:nth-child(7) { height: 25%; background: #c84f1c; }
+
+      /* CS9 — (removed — now video) */
+
+      /* CS10 — mini type block */
+      [data-composition-id="canvas-open"] .cs-type {
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+        background: #f5ead1; }
+      [data-composition-id="canvas-open"] .cs-type-big {
+        font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 48px; color: #14110a; line-height: 1; }
+      [data-composition-id="canvas-open"] .cs-type-sm {
+        font-family: "JetBrains Mono", monospace; font-size: 10px; color: #8a6a2a; letter-spacing: 0.06em; }
+
+      /* C1 — FORMAT */
+      [data-composition-id="canvas-open"] .c1 { background:#fbf4e3; z-index:4; }
+      [data-composition-id="canvas-open"] .c1-stage { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; gap:2px;
+        font-family:"Big Shoulders Display",sans-serif; font-weight:800; font-size:120px; color:#14110a; letter-spacing:-0.02em; }
+      [data-composition-id="canvas-open"] .c1-l { display:inline-block; transform-origin:50% 60%; }
+
+      /* C2 — Gradient */
+      [data-composition-id="canvas-open"] .c2-grad { position:absolute; inset:16px; border-radius:10px;
+        background:linear-gradient(120deg,#e94f2a 0%,#f2a33b 50%,#3d7cc8 100%); background-size:240% 240%; background-position:0% 50%; }
+
+      /* C3 — Bars */
+      [data-composition-id="canvas-open"] .c3 { background:#fbf3dd; }
+      [data-composition-id="canvas-open"] .c3-label { position:absolute; top:20px; left:24px;
+        font-family:"JetBrains Mono",monospace; font-weight:500; font-size:13px; letter-spacing:0.18em; color:#8a6a2a; }
+      [data-composition-id="canvas-open"] .c3-bars { position:absolute; bottom:40px; left:24px; right:24px; height:150px;
+        display:flex; align-items:flex-end; gap:12px; }
+      [data-composition-id="canvas-open"] .c3-bar { flex:1; background:linear-gradient(180deg,#c84f1c,#a83a10); border-radius:3px; transform-origin:50% 100%; height:0; }
+      [data-composition-id="canvas-open"] .c3-axis { position:absolute; bottom:34px; left:24px; right:24px; height:1.5px; background:#2a1f0a; }
+
+      /* C4 — Particles */
+      [data-composition-id="canvas-open"] .c4 { background:#1a1610; }
+      [data-composition-id="canvas-open"] .c4-grid { position:absolute; inset:24px; display:grid; grid-template-columns:repeat(7,1fr); grid-template-rows:repeat(5,1fr); gap:4px; }
+      [data-composition-id="canvas-open"] .c4-dot { width:100%; height:100%; border-radius:50%; background:#f8dc72; }
+
+      /* C5 — Logo */
+      [data-composition-id="canvas-open"] .c5 { background:#f7ecd1; }
+      [data-composition-id="canvas-open"] .c5-stage { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; gap:12px; }
+      [data-composition-id="canvas-open"] .c5-sh { width:44px; height:44px; display:inline-block; }
+      [data-composition-id="canvas-open"] .c5-sq { background:#204d3b; border-radius:4px; }
+      [data-composition-id="canvas-open"] .c5-tri { width:0; height:0; border-left:24px solid transparent; border-right:24px solid transparent; border-bottom:44px solid #d35a1a; background:transparent; }
+      [data-composition-id="canvas-open"] .c5-circ { background:#e2b53f; border-radius:50%; }
+
+      /* C7 — Shader */
+      [data-composition-id="canvas-open"] .c7 { background:#1a1410; }
+      [data-composition-id="canvas-open"] .c7-field { position:absolute; inset:0;
+        background: radial-gradient(circle at 30% 40%,#e8935d 0%,transparent 48%),
+          radial-gradient(circle at 75% 60%,#7fc3c8 0%,transparent 52%),
+          radial-gradient(circle at 50% 85%,#d4586a 0%,transparent 50%),
+          conic-gradient(from 180deg at 50% 50%,#2d1f1a,#3a2a22,#2d1f1a);
+        filter:blur(20px) saturate(1.2); }
+
+      /* C8 — Video composite */
+      [data-composition-id="canvas-open"] .c8 { background:#0f0d0a; }
+      [data-composition-id="canvas-open"] .c8-screen { position:absolute; inset:12px; border-radius:6px;
+        background:radial-gradient(circle at 60% 40%,#c98f6a 0%,#6b4829 35%,#2d1c10 85%); }
+      [data-composition-id="canvas-open"] .c8-lt { position:absolute; left:22px; bottom:48px; display:flex; flex-direction:column; gap:2px;
+        padding:7px 10px; background:rgba(230,220,200,0.94); border-radius:3px; border-left:3px solid #d35a1a; }
+      [data-composition-id="canvas-open"] .c8-n { font-family:"Inter",sans-serif; font-weight:700; font-size:10px; color:#0f0d0a; letter-spacing:0.02em; }
+      [data-composition-id="canvas-open"] .c8-t { font-family:"Inter",sans-serif; font-weight:500; font-size:8px; color:#544a32; }
+
+      /* C9 — SVG line */
+      [data-composition-id="canvas-open"] .c9 { background:#f5ead1; }
+      [data-composition-id="canvas-open"] .c9-svg { position:absolute; inset:0; width:100%; height:100%; color:#3a2412; padding:18px; box-sizing:border-box; }
+      [data-composition-id="canvas-open"] .c9-path { stroke-dasharray:260; stroke-dashoffset:260; }
+
+      /* C10 — Cube */
+      [data-composition-id="canvas-open"] .c10 { background:#f1e5ca; }
+      [data-composition-id="canvas-open"] .c10-stage { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; perspective:800px; }
+      [data-composition-id="canvas-open"] .c10-cube { position:relative; width:140px; height:140px; transform-style:preserve-3d; }
+      [data-composition-id="canvas-open"] .c10-f { position:absolute; width:140px; height:140px; border:1px solid rgba(255,240,210,0.3); }
+      [data-composition-id="canvas-open"] .c10-f1 { transform:translateZ(70px); background:#c3703e; }
+      [data-composition-id="canvas-open"] .c10-f2 { transform:rotateY(180deg) translateZ(70px); background:#7a4620; }
+      [data-composition-id="canvas-open"] .c10-f3 { transform:rotateY(90deg) translateZ(70px); background:#9c5a2c; }
+      [data-composition-id="canvas-open"] .c10-f4 { transform:rotateY(-90deg) translateZ(70px); background:#5a3215; }
+      [data-composition-id="canvas-open"] .c10-f5 { transform:rotateX(90deg) translateZ(70px); background:#b16838; }
+      [data-composition-id="canvas-open"] .c10-f6 { transform:rotateX(-90deg) translateZ(70px); background:#4a2a11; }
+
+      /* C11 — Waveform */
+      [data-composition-id="canvas-open"] .c11 { background:#1a1610; }
+      [data-composition-id="canvas-open"] .c11-bars { position:absolute; inset:20px; display:flex; align-items:center; gap:3px; }
+      [data-composition-id="canvas-open"] .c11-bar { flex:1; background:#4ec9a8; border-radius:2px; transform-origin:50% 50%; }
+
+      /* C12 — Swatches */
+      [data-composition-id="canvas-open"] .c12 { background:#f7f2e8; }
+      [data-composition-id="canvas-open"] .c12-sw-grid { position:absolute; inset:16px; display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(2,1fr); gap:8px; }
+      [data-composition-id="canvas-open"] .c12-sw { border-radius:5px; }
+
+      /* C13 — Code snippet */
+      [data-composition-id="canvas-open"] .c13 { background:#1c1917; font-family:"JetBrains Mono",monospace; }
+      [data-composition-id="canvas-open"] .c13-code { position:absolute; inset:20px; font-size:13px; line-height:1.7; color:#d4c8a8; white-space:pre; }
+      [data-composition-id="canvas-open"] .c13-kw { color:#c084fc; }
+      [data-composition-id="canvas-open"] .c13-fn { color:#f59e0b; }
+      [data-composition-id="canvas-open"] .c13-str { color:#34d399; }
+      [data-composition-id="canvas-open"] .c13-num { color:#f97316; }
+
+      /* C14 — Circular progress */
+      [data-composition-id="canvas-open"] .c14 { background:#fbf4e3; }
+      [data-composition-id="canvas-open"] .c14-svg { position:absolute; inset:20px; width:calc(100% - 40px); height:calc(100% - 40px); }
+      [data-composition-id="canvas-open"] .c14-fill { stroke-dasharray:264; stroke-dashoffset:264; transform:rotate(-90deg); transform-origin:50% 50%; }
+      [data-composition-id="canvas-open"] .c14-pct { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+        font-family:"JetBrains Mono",monospace; font-weight:500; font-size:32px; color:#14110a; }
+
+      /* C15 — Typography specimen */
+      [data-composition-id="canvas-open"] .c15 { background:#f5ead1; }
+      [data-composition-id="canvas-open"] .c15-spec { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
+      [data-composition-id="canvas-open"] .c15-big { font-family:"Instrument Serif",serif; font-size:108px; color:#14110a; line-height:1; }
+      [data-composition-id="canvas-open"] .c15-label { font-family:"JetBrains Mono",monospace; font-size:12px; color:#8a6a2a; letter-spacing:0.06em; }
+
+      /* C16 — Gradient blob */
+      [data-composition-id="canvas-open"] .c16 { background:#1a1410; border-radius:50%; }
+      [data-composition-id="canvas-open"] .c16-blob { position:absolute; inset:0; border-radius:50%;
+        background: radial-gradient(circle at 40% 35%,#e8935d 0%,transparent 55%),
+          radial-gradient(circle at 70% 70%,#7fc3c8 0%,transparent 50%),
+          #1a1410;
+        filter:blur(14px) saturate(1.3); }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        var tl = gsap.timeline({ paused: true });
+        var root = document.querySelector('[data-composition-id="canvas-open"]');
+        var zoomWrap = root.querySelector(".zoom-wrap");
+        var plane = root.querySelector(".canvas-plane");
+        var c1 = root.querySelector(".c1");
+
+        // === PAN (on .canvas-plane): runs full 3.21s, no interruption ===
+        // x: -600→400 (1000px), y: -360→240 (600px), rotation: 3°→-1°
+        // power2.out = front-loaded speed, decelerating throughout.
+        gsap.set(plane, { x: -600, y: -360, rotation: 3.0 });
+        tl.to(plane,
+          { x: 400, y: 240, rotation: -1.0, duration: 3.21, ease: "power1.out" },
+          0);
+
+        // === ZOOM (on .zoom-wrap): 1.75→3.21s, overlaps last 1.46s of pan ===
+        // Scales around (740, 480) = C1's viewport position at pan end.
+        // Translate (220, 60) shifts that origin to viewport center (960, 540).
+        // Pan and zoom run on SEPARATE elements — no property conflict.
+        // power3.in accelerates hard at the end — exit velocity ≈ 2.47 scale/s,
+        // matching Beat 2's power2.out entry velocity ≈ 2.53 scale/s.
+        tl.to(zoomWrap,
+          { scale: 2.2, x: 220, y: 60, duration: 0.834, ease: "power3.in" },
+          2.376);
+
+        // C1 lifts off — grows slightly + shadow deepens
+        tl.to(c1,
+          { scale: 1.08, boxShadow: "0 32px 64px rgba(80,55,15,0.35), 0 8px 20px rgba(80,55,15,0.18)",
+            duration: 0.457, ease: "power2.in" },
+          2.52);
+
+        // Other cards dim gradually — focus narrows to C1
+        var otherCards = root.querySelectorAll(".card:not(.c1)");
+        tl.to(otherCards, { opacity: 0.35, duration: 0.4, ease: "power2.in" }, 2.52);
+
+        // Blur ramp on zoom-wrap — starts early so blur is well established by the cut
+        tl.to(zoomWrap,
+          { filter: "blur(16px)", opacity: 0.75, duration: 0.577, ease: "power2.in" },
+          2.63);
+
+        // === SHOWCASE VIDEOS: play from start, muted, for scene duration ===
+        var showcaseVideos = root.querySelectorAll(".cs-video");
+        showcaseVideos.forEach(function (v) {
+          v.currentTime = 0;
+          v.play().catch(function () {});
+        });
+
+        // === CARD ANIMATIONS ===
+
+        // C1 — letters breathe
+        root.querySelectorAll(".c1-l").forEach(function (el, i) {
+          tl.to(el, { y: -8, rotation: i % 2 === 0 ? 4 : -4,
+            duration: 0.5, ease: "sine.inOut", repeat: 3, yoyo: true }, i * 0.07);
+        });
+
+        // C2 — gradient shift
+        tl.fromTo(root.querySelector(".c2-grad"),
+          { backgroundPosition: "0% 50%", filter: "hue-rotate(0deg)" },
+          { backgroundPosition: "100% 50%", filter: "hue-rotate(40deg)", duration: 2.71, ease: "sine.inOut" }, 0);
+
+        // C3 — bars grow + settle
+        var bH = [60, 120, 90, 140, 108];
+        root.querySelectorAll(".c3-bar").forEach(function (bar, i) {
+          tl.fromTo(bar, { height: 0 }, { height: bH[i], duration: 0.6, ease: "power3.out" }, 0.04 + i * 0.05);
+          tl.to(bar, { height: bH[i] * 0.93, duration: 0.8, ease: "sine.inOut", repeat: 1, yoyo: true }, 0.8 + i * 0.05);
+        });
+
+        // C4 — particles pulse
+        var c4g = root.querySelector("#c4-grid");
+        for (var i = 0; i < 35; i++) { var d = document.createElement("span"); d.className = "c4-dot"; c4g.appendChild(d); }
+        tl.fromTo(c4g.querySelectorAll(".c4-dot"),
+          { scale: 0.3, opacity: 0.3 },
+          { scale: 1, opacity: 1, duration: 0.8, ease: "power2.out",
+            stagger: { each: 0.015, from: "center" }, repeat: 2, yoyo: true }, 0);
+
+        // C5 — logo shapes assemble
+        var shapes = [root.querySelector(".c5-sq"), root.querySelector(".c5-tri"), root.querySelector(".c5-circ")];
+        tl.fromTo(shapes[0], { x: -40, rotation: -12, opacity: 0 }, { x: 0, rotation: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 0.1);
+        tl.fromTo(shapes[1], { y: 35, rotation: 15, opacity: 0 }, { y: 0, rotation: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 0.18);
+        tl.fromTo(shapes[2], { x: 40, rotation: 18, opacity: 0 }, { x: 0, rotation: 0, opacity: 1, duration: 0.5, ease: "back.out(1.4)" }, 0.25);
+        tl.to(shapes, { rotation: "+=5", duration: 0.8, ease: "sine.inOut", repeat: 1, yoyo: true, stagger: 0.06 }, 0.8);
+
+        // C7 — shader rotation
+        tl.to(root.querySelector(".c7-field"), { rotation: 5, duration: 2.71, ease: "sine.inOut", transformOrigin: "50% 50%" }, 0);
+
+        // C8 — lower-third slides in
+        tl.fromTo(root.querySelector(".c8-lt"), { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 0.3);
+
+        // C9 — SVG path draws
+        tl.fromTo(root.querySelector(".c9-path"), { strokeDashoffset: 260 }, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" }, 0);
+        tl.fromTo(root.querySelector(".c9-path"), { strokeDashoffset: 0 }, { strokeDashoffset: -260, duration: 1.1, ease: "power2.inOut" }, 1.3);
+        tl.to(root.querySelector(".c9-dot"), { x: 170, y: -50, duration: 1.1, ease: "power2.inOut", repeat: 1, yoyo: true }, 0);
+
+        // C10 — cube rotates
+        tl.to(root.querySelector(".c10-cube"), { rotationY: 360, rotationX: 25, duration: 2.71, ease: "none" }, 0);
+
+        // C11 — waveform bars
+        var c11c = root.querySelector("#c11-bars");
+        var wH = [24, 52, 38, 64, 30, 48, 70, 42, 56, 28, 46, 62, 34, 50, 22];
+        for (var w = 0; w < wH.length; w++) { var wb = document.createElement("span"); wb.className = "c11-bar"; wb.style.height = "0px"; c11c.appendChild(wb); }
+        c11c.querySelectorAll(".c11-bar").forEach(function (el, idx) {
+          tl.fromTo(el, { height: 4 }, { height: wH[idx], duration: 0.3, ease: "sine.inOut", repeat: 4, yoyo: true }, idx * 0.035);
+        });
+
+        // C12 — swatches scale in
+        tl.fromTo(root.querySelectorAll(".c12-sw"),
+          { scale: 0, borderRadius: "50%" },
+          { scale: 1, borderRadius: "5px", duration: 0.35, ease: "back.out(1.7)", stagger: { each: 0.05, from: "random" } }, 0.15);
+
+        // C14 — circular progress fills
+        tl.fromTo(root.querySelector(".c14-fill"),
+          { strokeDashoffset: 264 },
+          { strokeDashoffset: 264 * 0.22, duration: 1.4, ease: "power2.out" }, 0.1);
+
+        // C16 — blob rotates slowly
+        tl.to(root.querySelector(".c16-blob"), { rotation: 12, duration: 2.71, ease: "sine.inOut", transformOrigin: "50% 50%" }, 0);
+
+        window.__timelines["canvas-open"] = tl;
+      })();
+    </script>
+  </div>
+</template>

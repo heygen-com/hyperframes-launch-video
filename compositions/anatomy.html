@@ -1,0 +1,488 @@
+<template id="anatomy-template">
+  <div
+    data-composition-id="anatomy"
+    data-width="1920"
+    data-height="1080"
+    data-start="0"
+    data-duration="8.4"
+  >
+    <!-- Transition wrapper — entire scene exits via Vox zoom in last 0.3s. -->
+    <div class="anat-wrap">
+    <!-- Warm cream bg (carries over from Beat 3) + subtle graph-paper grid. -->
+    <div class="anat-bg"></div>
+    <div class="anat-grid"></div>
+    <div class="anat-vignette"></div>
+
+    <!-- Section eyebrow -->
+    <div class="anat-eyebrow">anatomy of a composition</div>
+
+    <!-- Easing curve (draws in Phase 4, above the divs) -->
+    <svg class="anat-curve-svg" viewBox="0 0 1320 320" xmlns="http://www.w3.org/2000/svg">
+      <path class="anat-curve" d="M 12 300 C 280 280 520 80 820 50 S 1200 48 1308 38" stroke="currentColor" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="anat-curve-label">power2.out</div>
+
+    <!-- Slide marker — a small square that demonstrates the ease. -->
+    <div class="anat-slider"></div>
+
+    <!-- Data-attribute labels above div 1 (shown in Phase 2) -->
+    <div class="anat-attr anat-attr-start">start: 0</div>
+    <div class="anat-attr anat-attr-dur">duration: 5</div>
+
+    <!-- Div 1 — the "A div is a keyframe" block. -->
+    <div class="anat-div anat-div1">
+      <span class="anat-div1-label">&lt;div&gt;</span>
+    </div>
+
+    <!-- Div 2 — appears on "Data attributes are your timeline". -->
+    <div class="anat-div anat-div2">
+      <span class="anat-div2-label">&lt;div&gt;</span>
+    </div>
+
+    <!-- Timeline axis + ticks + fill. -->
+    <div class="anat-timeline">
+      <div class="anat-timeline-label">timeline</div>
+      <div class="anat-timeline-bar"></div>
+      <div class="anat-timeline-fill"></div>
+      <div class="anat-timeline-ticks">
+        <span class="anat-tick" style="left: 0%;"></span>
+        <span class="anat-tick" style="left: 10%;"></span>
+        <span class="anat-tick" style="left: 20%;"></span>
+        <span class="anat-tick" style="left: 30%;"></span>
+        <span class="anat-tick" style="left: 40%;"></span>
+        <span class="anat-tick" style="left: 50%;"></span>
+        <span class="anat-tick" style="left: 60%;"></span>
+        <span class="anat-tick" style="left: 70%;"></span>
+        <span class="anat-tick" style="left: 80%;"></span>
+        <span class="anat-tick" style="left: 90%;"></span>
+        <span class="anat-tick" style="left: 100%;"></span>
+      </div>
+      <div class="anat-tick-labels">
+        <span class="anat-tick-label" style="left: 0%;">0</span>
+        <span class="anat-tick-label" style="left: 50%;">5</span>
+        <span class="anat-tick-label" style="left: 100%;">10</span>
+      </div>
+    </div>
+    </div><!-- /.anat-wrap -->
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,100..900,0..100;1,9..144,100..900,0..100&family=JetBrains+Mono:wght@400;500;600&family=Geist:wght@400;500;600&display=swap");
+
+      [data-composition-id="anatomy"] {
+        width: 1920px;
+        height: 1080px;
+        position: relative;
+        overflow: hidden;
+        background: #fbf4e3;
+        color: #14110a;
+        font-family: "Geist", sans-serif;
+      }
+
+      [data-composition-id="anatomy"] .anat-wrap {
+        position: absolute;
+        inset: 0;
+        will-change: transform, filter;
+      }
+      [data-composition-id="anatomy"] .anat-bg {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 45%, #fcf6e7 0%, #f6edd4 100%);
+      }
+      [data-composition-id="anatomy"] .anat-grid {
+        position: absolute;
+        inset: -20px;
+        background-image:
+          linear-gradient(to right, rgba(90, 60, 10, 0.07) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(90, 60, 10, 0.07) 1px, transparent 1px);
+        background-size: 40px 40px;
+        opacity: 0;
+      }
+      [data-composition-id="anatomy"] .anat-vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 55%, transparent 40%, rgba(110, 70, 15, 0.09) 100%);
+        pointer-events: none;
+      }
+
+      /* Eyebrow label */
+      [data-composition-id="anatomy"] .anat-eyebrow {
+        position: absolute;
+        top: 130px;
+        left: 300px;
+        font-family: "Fraunces", serif;
+        font-variation-settings: "opsz" 48, "wght" 340, "SOFT" 80;
+        font-style: italic;
+        font-size: 36px;
+        color: #8a6a2a;
+        letter-spacing: 0.02em;
+        opacity: 0;
+      }
+
+      /* Timeline */
+      [data-composition-id="anatomy"] .anat-timeline {
+        position: absolute;
+        top: 780px;
+        left: 300px;
+        width: 1320px;
+        height: 60px;
+      }
+      [data-composition-id="anatomy"] .anat-timeline-label {
+        position: absolute;
+        left: -158px;
+        top: 4px;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 500;
+        font-size: 16px;
+        letter-spacing: 0.18em;
+        color: #8a6a2a;
+        text-transform: uppercase;
+        opacity: 0;
+      }
+      [data-composition-id="anatomy"] .anat-timeline-bar {
+        position: absolute;
+        left: 0;
+        top: 12px;
+        width: 100%;
+        height: 2px;
+        background: #6a5028;
+        transform-origin: 0% 50%;
+        transform: scaleX(0);
+      }
+      [data-composition-id="anatomy"] .anat-timeline-fill {
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 50%;
+        height: 10px;
+        background: linear-gradient(90deg, rgba(200, 79, 28, 0.9), rgba(200, 79, 28, 0.35));
+        border-radius: 2px;
+        transform-origin: 0% 50%;
+        transform: scaleX(0);
+        opacity: 0.85;
+      }
+      [data-composition-id="anatomy"] .anat-tick {
+        position: absolute;
+        top: 16px;
+        width: 1.5px;
+        height: 10px;
+        background: #6a5028;
+        transform: translateX(-50%);
+        opacity: 0;
+      }
+      [data-composition-id="anatomy"] .anat-tick-label {
+        position: absolute;
+        top: 34px;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 400;
+        font-size: 15px;
+        color: #8a6a2a;
+        transform: translateX(-50%);
+        opacity: 0;
+      }
+
+      /* Div rectangles (clips) */
+      [data-composition-id="anatomy"] .anat-div {
+        position: absolute;
+        top: 540px;
+        height: 160px;
+        border-radius: 10px;
+        background: #f0e2c4;
+        border: 1.5px solid #b89860;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 500;
+        font-size: 36px;
+        color: #5a4620;
+        opacity: 0;
+      }
+      [data-composition-id="anatomy"] .anat-div1 {
+        left: 300px;
+        width: 660px; /* 0 → 5 on the timeline (660px = 5 units × 132px) */
+        z-index: 2;
+      }
+      [data-composition-id="anatomy"] .anat-div2 {
+        left: 960px; /* mark 5 */
+        width: 396px; /* 3 units */
+        background: #d9e4d0;
+        border: 1.5px solid #7a9c70;
+        color: #2f5a3a;
+        z-index: 2;
+      }
+      /* Styled state for div 1 (Phase 3, CSS upgrade) */
+      [data-composition-id="anatomy"] .anat-div1.is-styled {
+        background: linear-gradient(135deg, #d68b3c 0%, #b4691e 100%);
+        border: 1.5px solid #7c4612;
+        border-radius: 22px;
+        color: #fcf6e7;
+        font-family: "Geist", sans-serif;
+        font-weight: 500;
+        font-size: 34px;
+        letter-spacing: -0.01em;
+        box-shadow: 0 12px 28px rgba(130, 70, 10, 0.28), 0 3px 8px rgba(130, 70, 10, 0.15);
+      }
+
+      /* Data-attribute labels */
+      [data-composition-id="anatomy"] .anat-attr {
+        position: absolute;
+        top: 480px;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 500;
+        font-size: 22px;
+        color: #7a5d2a;
+        letter-spacing: 0.02em;
+        opacity: 0;
+      }
+      [data-composition-id="anatomy"] .anat-attr-start { left: 320px; }
+      [data-composition-id="anatomy"] .anat-attr-dur { left: 560px; }
+
+      /* Easing curve (SVG) */
+      [data-composition-id="anatomy"] .anat-curve-svg {
+        position: absolute;
+        top: 220px;
+        left: 300px;
+        width: 1320px;
+        height: 320px;
+        color: #c84f1c;
+        opacity: 0.9;
+      }
+      [data-composition-id="anatomy"] .anat-curve {
+        stroke-dasharray: 1600;
+        stroke-dashoffset: 1600;
+      }
+      [data-composition-id="anatomy"] .anat-curve-label {
+        position: absolute;
+        top: 208px;
+        left: 1340px;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 500;
+        font-size: 18px;
+        color: #c84f1c;
+        letter-spacing: 0.08em;
+        opacity: 0;
+      }
+
+      /* Slide marker (follows the curve path conceptually) */
+      [data-composition-id="anatomy"] .anat-slider {
+        position: absolute;
+        top: 520px;
+        left: 300px;
+        width: 22px;
+        height: 22px;
+        background: #2a8a7c;
+        border-radius: 50%;
+        opacity: 0;
+        z-index: 3;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/MotionPathPlugin.min.js"></script>
+    <script>
+      (function () {
+        gsap.registerPlugin(MotionPathPlugin);
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        const root = document.querySelector('[data-composition-id="anatomy"]');
+
+        const grid = root.querySelector(".anat-grid");
+        const eyebrow = root.querySelector(".anat-eyebrow");
+        const tlLabel = root.querySelector(".anat-timeline-label");
+        const tlBar = root.querySelector(".anat-timeline-bar");
+        const tlFill = root.querySelector(".anat-timeline-fill");
+        const ticks = root.querySelectorAll(".anat-tick");
+        const tickLabels = root.querySelectorAll(".anat-tick-label");
+        const div1 = root.querySelector(".anat-div1");
+        const div1Label = root.querySelector(".anat-div1-label");
+        const div2 = root.querySelector(".anat-div2");
+        const attrStart = root.querySelector(".anat-attr-start");
+        const attrDur = root.querySelector(".anat-attr-dur");
+        const curveSvg = root.querySelector(".anat-curve-svg");
+        const curvePath = root.querySelector(".anat-curve");
+        const curveLabel = root.querySelector(".anat-curve-label");
+        const slider = root.querySelector(".anat-slider");
+        const wrap = root.querySelector(".anat-wrap");
+
+        // --- Cut-the-curve upward entry (0 → 0.42s) ---
+        // Continues the same upward direction from Beat 3's exit.
+        // Starts blurred + below, decelerates into place. (Depth-motion skill.)
+        gsap.set(wrap, { y: 150, filter: "blur(30px)" });
+        tl.to(wrap,
+          { y: 0, filter: "blur(0px)", duration: 1.2, ease: "power2.out" },
+          0);
+
+        // --- Phase 0: Workspace fades up (overlaps entry settle) ---
+        tl.to(grid, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0.1);
+        tl.fromTo(eyebrow,
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.15);
+
+        // --- Phase 1: "A div is a keyframe" (0.1 → 1.3s) ---
+        // Timeline axis draws left-to-right; div 1 fades/slides up and settles.
+        tl.fromTo(tlLabel,
+          { opacity: 0, x: -14 },
+          { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" },
+          0.15);
+        tl.to(tlBar, { scaleX: 1, duration: 0.55, ease: "power2.out" }, 0.2);
+        tl.to(ticks, {
+          opacity: 1,
+          duration: 0.35,
+          ease: "power2.out",
+          stagger: { each: 0.035, from: "start" },
+        }, 0.4);
+        tl.to(tickLabels, {
+          opacity: 0.85,
+          duration: 0.3,
+          ease: "power2.out",
+          stagger: 0.08,
+        }, 0.55);
+
+        // Div 1 arrives — fades in and settles down onto the timeline.
+        tl.fromTo(div1,
+          { opacity: 0, y: -24, scale: 0.96 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "power2.out" },
+          0.35);
+
+        // --- Phase 2: "Data attributes are your timeline" (1.4 → 2.9s) ---
+        // Labels fade in, timeline fills 0→5 in gradient, div 2 docks at mark 5.
+        tl.fromTo(attrStart,
+          { opacity: 0, y: -8 },
+          { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" },
+          1.40);
+        tl.fromTo(attrDur,
+          { opacity: 0, y: -8 },
+          { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" },
+          1.65);
+        tl.to(tlFill,
+          { scaleX: 1, duration: 0.65, ease: "power2.out" },
+          1.95);
+        tl.fromTo(div2,
+          { opacity: 0, x: 40, scale: 0.92 },
+          { opacity: 1, x: 0, scale: 1, duration: 0.5, ease: "back.out(1.4)" },
+          2.50);
+
+        // --- Phase 3: "CSS is your look" (3.65 → 4.7s) ---
+        // Flip a class — CSS transition handles the cross-fade of styles.
+        // Use a precise time for the class toggle via a set() call on a dummy marker.
+        tl.add(() => div1.classList.add("is-styled"), 3.70);
+        // Small scale pulse on div 1 so the upgrade feels intentional.
+        tl.fromTo(div1,
+          { scale: 1 },
+          { scale: 1.04, duration: 0.22, ease: "power2.out" },
+          3.70);
+        tl.to(div1,
+          { scale: 1, duration: 0.35, ease: "power2.inOut" },
+          3.92);
+        // Let data-attr labels fade to muted — they've done their job.
+        tl.to([attrStart, attrDur],
+          { opacity: 0.35, duration: 0.4, ease: "power2.out" },
+          3.80);
+
+        // --- Phase 4: "GSAP is your animation engine" (5.5 → 8.6s) ---
+        // Easing curve draws itself above the divs; power2.out label appears.
+        tl.to(curvePath,
+          { strokeDashoffset: 0, duration: 1.2, ease: "power1.inOut" },
+          5.55);
+        tl.to(curveLabel,
+          { opacity: 1, duration: 0.4, ease: "power2.out" },
+          6.40);
+
+        // Slider demo — follows the exact SVG easing curve via MotionPathPlugin.
+        // Slider is positioned at the SVG element's origin (left:300, top:220),
+        // then MotionPathPlugin drives x/y transforms along the raw path data.
+        // Offset left/top by -11px (half of 22px slider) so the dot's CENTER
+        // sits on the curve path, not its top-left corner.
+        gsap.set(slider, { left: 289, top: 209, x: 12, y: 300 });
+        tl.fromTo(slider,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.25, ease: "power2.out" },
+          6.45);
+
+        // --- ZOOM-TO-DOT TRANSITION (6.3 → 8.4s) ---
+        // Before the dot starts moving, we zoom the camera in tight on it.
+        // Then the camera tracks the dot as it traces the curve — the viewer
+        // sees a magnified red line with the blue dot climbing it.
+
+        // 6.3s: Fade out everything except curve + dot + bg.
+        tl.to([div1, div2, attrStart, attrDur, curveLabel],
+          { opacity: 0, duration: 0.35, ease: "power2.in" },
+          6.3);
+        tl.to([tlBar, tlFill, tlLabel],
+          { opacity: 0, duration: 0.3, ease: "power2.in" },
+          6.3);
+        tl.to(ticks,
+          { opacity: 0, duration: 0.25, ease: "power2.in" },
+          6.3);
+        tl.to(tickLabels,
+          { opacity: 0, duration: 0.25, ease: "power2.in" },
+          6.3);
+        tl.to(eyebrow,
+          { opacity: 0, duration: 0.3, ease: "power2.in" },
+          6.3);
+        tl.to(grid,
+          { opacity: 0, duration: 0.3, ease: "power2.in" },
+          6.3);
+        // Curve stays but thickens visually as we zoom (just keep it visible).
+
+        // 6.5→7.0s: Zoom in on the dot's starting position (312px, 520px).
+        // power2.in gives a soft start then rapid final magnification.
+        // Set transform-origin to the dot's start so scale centers on it.
+        // Zoom in and center: transform-origin on the dot, x/y offset to
+        // place it at viewport center (960,540) instead of (312,520).
+        tl.to(wrap, {
+          transformOrigin: "312px 520px",
+          scale: 6,
+          x: 648, y: 20,
+          duration: 0.5,
+          ease: "power2.in",
+        }, 6.5);
+
+        // 7.0→7.85s: Dot traces the curve AND camera follows it.
+        // The dot moves via MotionPathPlugin along the SVG easing curve.
+        tl.to(slider, {
+          motionPath: {
+            path: "M 12 300 C 280 280 520 80 820 50 S 1200 48 1308 38",
+          },
+          duration: 0.85,
+          ease: "power2.out",
+        }, 7.00);
+        // Camera follows: inverted curve × 6 for scale, PLUS centering offset
+        // (648, 20) baked into every point so motionPath starts where the zoom
+        // left off — no jump.
+        tl.to(wrap, {
+          motionPath: {
+            path: "M 648 20 C -960 140 -2400 1340 -4200 1520 S -6480 1532 -7128 1592",
+          },
+          duration: 0.85,
+          ease: "power2.out",
+        }, 7.00);
+
+        // 7.85→7.97: Dot pulse at end of path (arrival emphasis).
+        tl.fromTo(slider,
+          { scale: 1 },
+          { scale: 1.5, duration: 0.12, ease: "power2.out" },
+          7.85);
+        tl.to(slider,
+          { scale: 1, duration: 0.18, ease: "power2.inOut" },
+          7.97);
+
+        // --- Cut-the-curve LEFTWARD exit (8.05 → 8.38s) ---
+        // From the zoomed-in state, everything accelerates left + blur peaks
+        // at the composition boundary. Thesis picks up same direction.
+        tl.to(wrap, {
+          x: "-=1200",
+          filter: "blur(22px)",
+          duration: 0.33,
+          ease: "power2.in",
+        }, 8.05);
+
+        // Pad timeline to master slot duration (8.54s) to prevent black frames at beat tail
+        tl.to({}, { duration: 8.54 }, 0);
+
+        window.__timelines["anatomy"] = tl;
+      })();
+    </script>
+  </div>
+</template>

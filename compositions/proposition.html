@@ -1,0 +1,255 @@
+<template id="proposition-template">
+  <div
+    data-composition-id="proposition"
+    data-width="1920"
+    data-height="1080"
+    data-start="0"
+    data-duration="3.82"
+  >
+    <!-- Warm cream backdrop (matches Beat 2 end state). -->
+    <div class="prop-bg"></div>
+    <div class="prop-vignette"></div>
+
+    <!-- Wordmark (continues from Beat 2 end: Fraunces 230px, center). Shrinks + pans left. -->
+    <div class="wordmark">Hyperframes</div>
+
+    <!-- Open source sublabel — fades in below shifted wordmark. -->
+    <div class="sublabel">Open source</div>
+
+    <!-- Diagram: < > HTML -> ▶ VIDEO  (slides in from right, then draws itself). -->
+    <div class="diagram-wrap">
+      <svg class="diagram-svg" viewBox="0 0 620 220" xmlns="http://www.w3.org/2000/svg">
+        <!-- HTML angle brackets -->
+        <path class="d-lt" d="M 50 15 L 15 70 L 50 125" stroke="currentColor" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="d-gt" d="M 85 15 L 120 70 L 85 125" stroke="currentColor" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Label under brackets -->
+        <text class="d-label d-label-left" x="68" y="188" text-anchor="middle">index.html</text>
+
+        <!-- Arrow -->
+        <path class="d-arrow-shaft" d="M 170 70 L 445 70" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path class="d-arrow-head" d="M 432 58 L 452 70 L 432 82" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Label under play button -->
+        <text class="d-label d-label-right" x="545" y="188" text-anchor="middle">video.mp4</text>
+      </svg>
+      <!-- Play button (static SVG — lottie asset removed for licensing) -->
+      <div class="d-play-lottie">
+        <svg class="d-play-player" viewBox="0 0 120 120" width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="54" fill="none" stroke="#14110a" stroke-width="4"/>
+          <polygon points="48,36 48,84 90,60" fill="#14110a"/>
+        </svg>
+      </div>
+    </div>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,100..900,0..100;1,9..144,100..900,0..100&family=JetBrains+Mono:wght@500&display=swap");
+
+      [data-composition-id="proposition"] {
+        width: 1920px;
+        height: 1080px;
+        position: relative;
+        overflow: hidden;
+        background: #fbf4e3;
+        color: #14110a;
+        font-family: "Fraunces", serif;
+      }
+
+      /* Clean warm backdrop matching Beat 2 end. */
+      [data-composition-id="proposition"] .prop-bg {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 45%, #fcf6e7 0%, #f6edd4 100%);
+      }
+      [data-composition-id="proposition"] .prop-vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 55%, transparent 40%, rgba(110, 70, 15, 0.09) 100%);
+        pointer-events: none;
+      }
+
+      /* Wordmark — Fraunces display. Variable-font axes (--opsz, --wght, --soft)
+         are animated via GSAP so the glyphs subtly reshape during the shrink
+         (display→text optical size) and breathe afterward. */
+      [data-composition-id="proposition"] .wordmark {
+        --opsz: 144;
+        --wght: 440;
+        --soft: 60;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        font-family: "Fraunces", serif;
+        font-variation-settings: "opsz" var(--opsz), "wght" var(--wght), "SOFT" var(--soft);
+        font-size: 230px;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+        color: #14110a;
+      }
+
+      /* Sublabel — Fraunces italic, light weight. Editorial kicker below wordmark. */
+      [data-composition-id="proposition"] .sublabel {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        font-family: "Fraunces", serif;
+        font-variation-settings: "opsz" 48, "wght" 320, "SOFT" 80;
+        font-style: italic;
+        font-size: 52px;
+        letter-spacing: 0.01em;
+        color: #5a4a28;
+        white-space: nowrap;
+      }
+
+      /* Diagram wrap — positioned right of wordmark. */
+      [data-composition-id="proposition"] .diagram-wrap {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 620px;
+        height: 220px;
+        color: #14110a;
+      }
+      [data-composition-id="proposition"] .diagram-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      /* Diagram labels — small mono, muted color. "we do this → this is the result". */
+      [data-composition-id="proposition"] .d-label {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 500;
+        font-size: 22px;
+        fill: #7a5d2a;
+        letter-spacing: 0.02em;
+        opacity: 0;
+      }
+
+      /* Stroke-draw prep — each animated path starts fully hidden. */
+      [data-composition-id="proposition"] .d-lt,
+      [data-composition-id="proposition"] .d-gt {
+        stroke-dasharray: 130;
+        stroke-dashoffset: 130;
+      }
+      [data-composition-id="proposition"] .d-arrow-shaft {
+        stroke-dasharray: 280;
+        stroke-dashoffset: 280;
+      }
+      [data-composition-id="proposition"] .d-arrow-head {
+        stroke-dasharray: 50;
+        stroke-dashoffset: 50;
+      }
+      /* Lottie play button — positioned to match where the SVG ring was */
+      [data-composition-id="proposition"] .d-play-lottie {
+        position: absolute;
+        top: 10px; left: 485px;
+        width: 120px; height: 120px;
+        opacity: 0;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        const root = document.querySelector('[data-composition-id="proposition"]');
+
+        const wordmark = root.querySelector(".wordmark");
+        const sublabel = root.querySelector(".sublabel");
+        const diagram = root.querySelector(".diagram-wrap");
+        const dLt = root.querySelector(".d-lt");
+        const dGt = root.querySelector(".d-gt");
+        const dLabelLeft = root.querySelector(".d-label-left");
+        const arrowShaft = root.querySelector(".d-arrow-shaft");
+        const arrowHead = root.querySelector(".d-arrow-head");
+        const playLottie = root.querySelector(".d-play-lottie");
+        const playPlayer = root.querySelector(".d-play-player");
+        const dLabelRight = root.querySelector(".d-label-right");
+
+        // --- Initial layout ---
+        // Wordmark starts mid-pan — Beat 2's tail left it at x:-140, y:-30, scale:0.92.
+        // Variable-font axes (opsz, wght, SOFT) are exposed as CSS custom properties
+        // so GSAP can animate them; Beat 2 handed off at opsz 130.
+        gsap.set(wordmark, {
+          xPercent: -50, yPercent: -50,
+          x: -140, y: -30, scale: 0.92,
+          "--opsz": 130, "--wght": 440, "--soft": 60,
+        });
+        gsap.set(sublabel, { xPercent: -50, yPercent: -50, x: -440, y: 80, opacity: 0 });
+        gsap.set(diagram, { xPercent: -50, yPercent: -50, x: 640, y: -30, opacity: 0 });
+
+        // --- Phase 1: Finish the pan (0 → 0.45s). "Open source..." ---
+        // Wordmark shrinks, and Fraunces axes shift: opsz drops toward text-size
+        // metrics (glyphs become more readable at smaller size), SOFT pushes up
+        // (rounder terminals, adds warmth), wght eases slightly down.
+        tl.to(wordmark,
+          {
+            x: -440, y: -80, scale: 0.72,
+            "--opsz": 72, "--wght": 420, "--soft": 90,
+            duration: 0.45, ease: "power2.out",
+          },
+          0);
+        tl.to(diagram,
+          { x: 460, opacity: 1, duration: 0.5, ease: "power2.out" },
+          0);
+        tl.to(sublabel,
+          { opacity: 1, y: 88, duration: 0.4, ease: "power2.out" },
+          0.2);
+
+        // --- Phase 2: "HTML" — brackets hand-draw + input label (0.55 → 1.2s) ---
+        // Starts during the tail of the pan — denser packing = less dead time.
+        // "HTML" word onset 0.96.
+        tl.to(dLt,
+          { strokeDashoffset: 0, duration: 0.4, ease: "power1.inOut" },
+          0.55);
+        tl.to(dGt,
+          { strokeDashoffset: 0, duration: 0.4, ease: "power1.inOut" },
+          0.67);
+        // Input label fades in right after brackets complete — gives the < > context.
+        tl.to(dLabelLeft,
+          { opacity: 1, duration: 0.3, ease: "power2.out" },
+          1.05);
+
+        // --- Phase 3: "in, video" — arrow extends (1.45 → 2.2s) ---
+        // "in" 1.82, "video" 2.12.
+        tl.to(arrowShaft,
+          { strokeDashoffset: 0, duration: 0.7, ease: "power2.out" },
+          1.45);
+        tl.to(arrowHead,
+          { strokeDashoffset: 0, duration: 0.26, ease: "power2.out" },
+          2.05);
+
+        // --- Phase 4: "out." — lottie play button + output label (2.5 → 3.1s) ---
+        // "out." 2.84.
+        tl.to(playLottie,
+          { opacity: 1, duration: 0.15, ease: "power2.out" },
+          2.50);
+        // (lottie .play() removed — now a static SVG)
+        // Output label fades in right after the play pops — gives the ▶ context.
+        tl.to(dLabelRight,
+          { opacity: 1, duration: 0.3, ease: "power2.out" },
+          3.05);
+
+        // Fraunces SOFT axis breathes — tiny, ongoing, so the small wordmark
+        // never reads as static.
+        tl.to(wordmark,
+          {
+            "--soft": 55, "--wght": 440,
+            duration: 0.75, ease: "sine.inOut",
+            yoyo: true, repeat: 1,
+          },
+          2.4);
+
+        // --- Phase 5: Cut-the-curve upward exit (3.49 → 3.82) ---
+        // All elements accelerate upward + blur. At the beat boundary the
+        // swap is hidden by peak blur; Beat 4 continues the same upward
+        // direction via its entry settle. (Depth-motion skill, upward variant.)
+        tl.to([wordmark, sublabel, diagram],
+          { y: "-=150", filter: "blur(30px)", duration: 0.33, ease: "power2.in" },
+          3.49);
+
+        window.__timelines["proposition"] = tl;
+      })();
+    </script>
+  </div>
+</template>
