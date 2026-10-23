@@ -8,7 +8,7 @@ The composition source for HeyGen's HyperFrames launch video — a real producti
 
 - **Duration:** 49.77s
 - **Resolution:** 1920×1080 @ 30fps
-- **Structure:** 1 root composition (`index.html`) + 17 sub-compositions wired together
+- **Structure:** 1 root composition (`index.html`) + 16 sub-compositions wired together
 - **Techniques on display:** CSS animations, GSAP, Lottie, shaders, Three.js, footage compositing, captions, SFX
 
 ## Prerequisites
